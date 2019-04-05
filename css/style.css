@@ -1,0 +1,160 @@
+/* base styles */
+a {
+  text-decoration: none;
+  color: black;
+  font-family: "Times New Roman", Times, serif;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;  
+  background-color: rgb(243, 226, 226);
+}
+*{
+  /* outline: solid red 1px; */
+ }
+/* site styles */
+header {
+  height: 70px;
+}
+
+header section {
+  margin: 0 auto;
+  width: 960px;
+}
+
+header section div {
+  float: left;
+  margin-top: 18px;
+  margin-left: 2px;
+}
+header h2 {
+  display: inline-block;
+  margin-left: 5px;
+  margin-top: 5px;
+  font-size: 2em;
+
+}
+
+header img {
+  width: 100px;
+  height: 40px;
+  float: left;
+  padding: 0px 0px 0px 0px;
+  
+}
+
+header nav {
+  float: right;
+}
+
+header nav li{
+  display: inline-block;
+  margin-right: 0px;
+  margin-top: 18px;
+  margin-left: 0px;
+  font-size: 1.2em;
+  border : solid 1px;
+  padding: 20px 20px 10px 20px;
+  border-radius: 15px 15px 0 0;
+}
+
+h1 {
+  text-align: center;
+  padding: 2%;
+  font-family: helvetica;
+  font-size: 1.5em;
+}
+
+body {
+  text-align: center;
+}
+
+main {
+  width: 960px;
+  margin: 10px auto;
+  min-height: 650px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+main aside {
+  width: 186px;
+  min-height: 650px;
+  float:left;
+  border: solid 1px;
+  border-radius: 5px;
+  margin-right: 0px;
+}
+
+main aside h2{
+  text-align: left;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+main aside ul{
+  list-style: none;
+}
+
+main aside li{
+  text-align: left;
+}
+
+
+main section{
+  width: 770px;
+  display: inline-block;
+  border: solid 1px;
+  border-radius: 5px;
+  min-height: 650px;
+  margin-left: 0px;
+}
+
+main section div:first-child{
+  width: 764px;
+  height: 280px;
+}
+
+main section div:first-child figure{
+  width: 250px;
+  height: 250px;
+  float: left;
+  display: inline-block;
+  padding: 2px;
+}
+
+main section div:first-child figure img{
+  width: 250px;
+  height: 250px;
+}
+
+main section div:nth-child(2){
+  height: 60px;
+}
+
+main section div:nth-child(3) p{
+  text-align: justify;
+}
+
+main section div:nth-child(2) button{
+  background: rgb(179, 168, 168);
+  color: rgb(27, 25, 25);
+  padding: 5px 5px;
+  border: solid 2px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 0px;
+  width: 350px;
+  height: 30px;
+  font-size: large;
+
+}
+
+footer{
+  height: 60px;
+  padding: 20px;
+  border-top: solid 1px;
+  border-bottom: solid 1px;
+  text-align: left;
+}
