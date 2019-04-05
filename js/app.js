@@ -2,6 +2,7 @@
 Product.allProducts = [];
 Product.productsShownLast = [];
 Product.productsAlreadySelected = [];
+var selectionCount = 0;
 
 new Product('Bag', 'img/bag.jpg');
 new Product('Banana', 'img/banana.jpg');
@@ -10,19 +11,18 @@ new Product('Boots', 'img/boots.jpg');
 new Product('Breakfast', 'img/breakfast.jpg');
 new Product('Bubblegum', 'img/bubblegum.jpg');
 new Product('Cthulhu', 'img/cthulhu.jpg');
-new Product('dog-duck', 'img/dog-duck.jpg');
-new Product('dragon', 'img/dragon.jpg');
-new Product('pen', 'img/pen.jpg');
-new Product('pet-sweep', 'img/pet-sweep.jpg');
-new Product('scissors', 'img/scissors.jpg');
-new Product('shark', 'img/shark.jpg');
-new Product('sweep', 'img/sweep.png');
-
-new Product('tauntaun', 'img/tauntaun.jpg');
-new Product('unicorn', 'img/unicorn.jpg');
-new Product('usb', 'img/usb.gif');
-new Product('water-can', 'img/water-can.jpg');
-new Product('wine-glass', 'img/wine-glass.jpg');
+new Product('Dog-duck', 'img/dog-duck.jpg');
+new Product('Dragon', 'img/dragon.jpg');
+new Product('Pen', 'img/pen.jpg');
+new Product('Pet-sweep', 'img/pet-sweep.jpg');
+new Product('Scissors', 'img/scissors.jpg');
+new Product('Shark', 'img/shark.jpg');
+new Product('Sweep', 'img/sweep.png');
+new Product('Tauntaun', 'img/tauntaun.jpg');
+new Product('Unicorn', 'img/unicorn.jpg');
+new Product('USB', 'img/usb.gif');
+new Product('Water-can', 'img/water-can.jpg');
+new Product('Wine-glass', 'img/wine-glass.jpg');
 
 function Product(Name, filepath) {
   this.name = Name;
@@ -33,36 +33,11 @@ function Product(Name, filepath) {
   Product.allProducts.push(this);
 }
 
-
 function refreshRandomProducts(){
-  console.log('Refreshing Products')
-
-  // var randomIdx = Math.floor(Math.random() * Product.allProducts.length);
-  // var imgContainer = document.getElementById('prod-pic1');
-  // console.log(Product.allProducts[randomIdx].filepath);
-  // Product.allProducts[randomIdx].noOfTimesDiplayed += 1;
-  // imgContainer.src = Product.allProducts[randomIdx].filepath;
-  // imgContainer.nextSibling.nextSibling.value = Product.allProducts[randomIdx].id;
-  // imgContainer.nextSibling.nextSibling.id = Product.allProducts[randomIdx].id;
-
-  // var randomIdx = Math.floor(Math.random() * Product.allProducts.length);
-  // var imgContainer = document.getElementById('prod-pic2');
-  // console.log(Product.allProducts[randomIdx].filepath);
-  // Product.allProducts[randomIdx].noOfTimesDiplayed += 1;
-  // imgContainer.src = Product.allProducts[randomIdx].filepath;
-  // imgContainer.nextSibling.nextSibling.value = Product.allProducts[randomIdx].id;
-  // imgContainer.nextSibling.nextSibling.id = Product.allProducts[randomIdx].id;
-
-  // var randomIdx = Math.floor(Math.random() * Product.allProducts.length);
-  // var imgContainer = document.getElementById('prod-pic3');
-  // console.log(Product.allProducts[randomIdx].filepath);
-  // Product.allProducts[randomIdx].noOfTimesDiplayed += 1;
-  // imgContainer.src = Product.allProducts[randomIdx].filepath;
-  // imgContainer.nextSibling.nextSibling.value = Product.allProducts[randomIdx].id;
-  // imgContainer.nextSibling.nextSibling.id = Product.allProducts[randomIdx].id;
+  console.log('Refreshing Products');
 
   Product.productsAlreadySelected = [];
-  var productImages = document.getElementsByClassName('product-image')
+  var productImages = document.getElementsByClassName('product-image');
   //console.log(productImages)
   for(var i = 0; i < productImages.length; i++){
     var prodImg = productImages[i];
@@ -72,9 +47,9 @@ function refreshRandomProducts(){
       console.log('In finding next product to show');
       var randomProduct = getRandomProduct();
       //debugger;
-      if(isProdutShownAlready(randomProduct) == false){
+      if(isProdutShownAlready(randomProduct) === false){
         nextProduct = randomProduct;
-      }  
+      }
     }
     prodImg.src = nextProduct.filepath;
     prodImg.nextSibling.nextSibling.value = nextProduct.id;
@@ -92,7 +67,7 @@ function isProdutShownAlready(productToCheck){
   var productsShownRecently = Product.productsShownLast.concat(Product.productsAlreadySelected);
   console.log('products list', productsShownRecently);
   for(var j=0; j< productsShownRecently.length; j++){
-    if(productToCheck.id == productsShownRecently[j].id){
+    if(productToCheck.id === productsShownRecently[j].id){
       return true;
     }
   }
@@ -104,30 +79,25 @@ function getRandomProduct(){
   return Product.allProducts[randomIdx];
 }
 
-var selectionCount = 0;
+
 function recordVote(event){
-  //console.log(event);
-  console.log('---In recordVote---')
+  console.log(event);
+  console.log('---In recordVote---');
   //console.log(event.target.favPhoto)
   var selProduct ='';
-  for (var i = 0; i < event.target.favPhoto.length; i++) {
-    if (event.target.favPhoto[i].checked){
-      console.log('Selected', event.target.favPhoto[i].value);
-      selProduct = event.target.favPhoto[i].value;
-      selectionCount++;
-      for(var j = 0; j < Product.allProducts.length; j++){
-        if(Product.allProducts[j].id == event.target.favPhoto[i].value){
-          Product.allProducts[j].votes += 1;
-        }
-      }
+
+  console.log('Selected', event.target.nextSibling.nextSibling.value);
+  selProduct = event.target.nextSibling.nextSibling.value;
+  selectionCount++;
+  for(var j = 0; j < Product.allProducts.length; j++){
+    if(Product.allProducts[j].id === selProduct){
+      Product.allProducts[j].votes += 1;
       break;
     }
   }
-  
-  if(selectionCount == 3){
-    voteForm.removeEventListener('submit', recordVote);
-    var voteButton =  document.getElementById('voteProduct');
-    voteButton.style.display = "none";
+
+  if(selectionCount === 2){
+    removeEventListners();
     showResults();
   }
   else{
@@ -139,18 +109,34 @@ function recordVote(event){
 
 function showResults(){
   var listElement = document.createElement('ul');
-
   for(var i = 0; i < Product.allProducts.length; i++){
     var liElement = document.createElement('li');
-    liElement.innerHTML = `${Product.allProducts[i].votes} votes for ${Product.allProducts[i].name}`
+    liElement.innerHTML = `${Product.allProducts[i].votes} votes for ${Product.allProducts[i].name}`;
     listElement.appendChild(liElement);
   }
   document.getElementById('results').appendChild(listElement);
-  document.getElementById('results').style.display = "block";
+  document.getElementById('results').style.display = 'block';
 }
 
 var voteForm =  document.getElementById('vote_form');
-voteForm.addEventListener('submit', recordVote)
+var productImages = document.getElementsByClassName('product-image');
+function setEventListners(){
+  for(var i = 0; i < productImages.length; i++){
+    var prodImg = productImages[i];
+    prodImg.addEventListener('click', recordVote);
+  }
 
-document.getElementById('results').style.display = "none";
+  // voteForm.addEventListener('submit', recordVote)
+}
+function removeEventListners(){
+  for(var i = 0; i < productImages.length; i++){
+    var prodImg = productImages[i];
+    prodImg.removeEventListener('click', recordVote);
+  }
+  // voteForm.removeEventListener('submit', recordVote);
+  // var voteButton =  document.getElementById('voteProduct');
+  // voteButton.style.display = "none";
+}
+setEventListners();
+document.getElementById('results').style.display = 'none';
 refreshRandomProducts();

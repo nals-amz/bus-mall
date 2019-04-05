@@ -18,7 +18,7 @@ header {
 
 header section {
   margin: 0 auto;
-  width: 960px;
+  width: 980px;
 }
 
 header section div {
@@ -69,7 +69,7 @@ body {
 }
 
 main {
-  width: 960px;
+  width: 980px;
   margin: 10px auto;
   min-height: 650px;
   margin-bottom: 0px;
@@ -77,7 +77,7 @@ main {
 }
 
 main aside {
-  width: 186px;
+  width: 202px;
   min-height: 650px;
   float:left;
   border: solid 1px;
@@ -87,16 +87,18 @@ main aside {
 
 main aside h2{
   text-align: left;
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: bold;
 }
 
 main aside ul{
   list-style: none;
+  margin-top: 6px;
 }
 
 main aside li{
   text-align: left;
+  padding-left: 10px;
 }
 
 
@@ -114,15 +116,14 @@ main section div:first-child{
   height: 280px;
 }
 
-main section div:first-child figure{
+main section div:first-child label{
   width: 250px;
   height: 250px;
   float: left;
-  display: inline-block;
   padding: 2px;
 }
 
-main section div:first-child figure img{
+main section div:first-child label img{
   width: 250px;
   height: 250px;
 }
