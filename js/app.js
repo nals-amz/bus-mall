@@ -10,12 +10,18 @@ bootStarp();
 
 function bootStarp(){
   document.getElementById('results').style.display = 'none';
-  if(localStorage.getItem('productsState') !== null){
+  console.log(localStorage.getItem('productsState')  === null);
+  if(!(localStorage.getItem('productsState') === null)){
     console.log('Retrived stored state');
     console.log(localStorage.getItem('productsState'));
     var productsPreviousState = JSON.parse(localStorage.getItem('productsState'));
     Product.allProducts = productsPreviousState.allProducts;
     selectionCount = productsPreviousState.selectionCount;
+    var h3Element = document.createElement('h3');
+    h3Element.innerHTML = `You have already voted for ${selectionCount} products. please continue.`;
+    h3Element.id = 'voterinfoContinueMessage';
+    var voterInfoDivElement = document.getElementById('voterInfoDiv');
+    voterInfoDivElement.appendChild(h3Element);
 
   }
   else{
@@ -54,7 +60,9 @@ function setStateOnLocalStorage(){
 }
 
 function clearStateOnLocalStorage(){
-  localStorage.removeItem('productsState');
+  console.log('removing productsState from localStorage');
+  console.log('IN Removing Now', localStorage.removeItem('productsState'));
+  console.log('AFTER removing productsState from localStorage');
 }
 
 function setEventListners(){
@@ -130,6 +138,8 @@ function recordVote(event){
   console.log(event);
   console.log('---In recordVote---');
   //console.log(event.target.favPhoto)
+  if(document.getElementById('voterinfoContinueMessage') !== null)
+    document.getElementById('voterinfoContinueMessage').style.display = 'none'; // hide the continue message if it exists
   var selProduct ='';
 
   console.log('Selected', event.target.nextSibling.nextSibling.value);
@@ -148,9 +158,9 @@ function recordVote(event){
   }
   else{
     refreshRandomProducts();
+    setStateOnLocalStorage();
   }
   voteForm.reset();
-  setStateOnLocalStorage();
   event.preventDefault();
 }
 
