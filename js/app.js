@@ -96,7 +96,7 @@ function recordVote(event){
     }
   }
 
-  if(selectionCount === 2){
+  if(selectionCount === 25){
     removeEventListners();
     showResults();
   }
