@@ -114,7 +114,9 @@ function showResults(){
     liElement.innerHTML = `${Product.allProducts[i].votes} votes for ${Product.allProducts[i].name}`;
     listElement.appendChild(liElement);
   }
-  document.getElementById('results').appendChild(listElement);
+  //document.getElementById('results').appendChild(listElement);
+  renderVoteResults();
+
   document.getElementById('results').style.display = 'block';
 }
 
@@ -140,3 +142,57 @@ function removeEventListners(){
 setEventListners();
 document.getElementById('results').style.display = 'none';
 refreshRandomProducts();
+
+function renderVoteResults(){
+  var prodLabels = [];
+  var prodVotes = [];
+  var prodColors = [];
+  var prodBorderColor = [];
+  for(var i=0; i<Product.allProducts.length; i++){
+    var productObj = Product.allProducts[i]
+    if(productObj.votes > 0){
+      prodLabels.push(productObj.name);
+      prodVotes.push(productObj.votes);
+      prodColors.push(`rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.4)`);
+      prodBorderColor.push(`rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`);
+    }
+  }
+
+var prodColors2 = [
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 159, 64, 0.2)'
+];
+
+  console.log(prodColors, prodBorderColor);
+  var ctx = document.getElementById('voteResultsChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: prodLabels,
+      datasets: [{
+        label: '# of Votes',
+        data: prodVotes,
+        backgroundColor: prodColors,
+        borderColor: prodBorderColor,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      aspectRatio: 2,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+  console.log(myChart);
+  
+}

@@ -78,7 +78,8 @@ main {
 
 main aside {
   width: 202px;
-  min-height: 650px;
+  height: 100%;
+  min-height: 850px;
   float:left;
   border: solid 1px;
   border-radius: 5px;
@@ -107,7 +108,7 @@ main section{
   display: inline-block;
   border: solid 1px;
   border-radius: 5px;
-  min-height: 650px;
+  min-height: 850px;
   margin-left: 0px;
 }
 
@@ -136,6 +137,20 @@ main section div:nth-child(3) p{
   text-align: justify;
 }
 
+#results{
+  width:400px;
+  height:400px;
+  margin-top: 10px;
+}
+#voteResultsChart{
+  width:400px;
+  height:400px;
+}
+#results h2 {
+  font-weight: bold;
+  font-size: 2em;
+  float: left;
+}
 main section div:nth-child(2) button{
   background: rgb(179, 168, 168);
   color: rgb(27, 25, 25);
@@ -155,7 +170,7 @@ main section div:nth-child(2) button{
 footer{
   height: 60px;
   padding: 20px;
-  border-top: solid 1px;
-  border-bottom: solid 1px;
+  /* border-top: solid 1px; */
+  /* border-bottom: solid 1px; */
   text-align: left;
 }
