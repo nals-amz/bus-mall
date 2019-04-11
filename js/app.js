@@ -3,6 +3,8 @@ Product.allProducts = [];
 Product.productsShownLast = [];
 Product.productsAlreadySelected = [];
 var selectionCount = 0;
+var voteForm = document.getElementById('vote_form');
+var productImages = document.getElementsByClassName('product-image');
 
 new Product('Bag', 'img/bag.jpg');
 new Product('Banana', 'img/banana.jpg');
@@ -23,6 +25,28 @@ new Product('Unicorn', 'img/unicorn.jpg');
 new Product('USB', 'img/usb.gif');
 new Product('Water-can', 'img/water-can.jpg');
 new Product('Wine-glass', 'img/wine-glass.jpg');
+
+bootStarp();
+
+function bootStarp(){
+  document.getElementById('results').style.display = 'none';
+  setEventListners();
+  refreshRandomProducts();
+}
+
+function setEventListners(){
+  for(var i = 0; i < productImages.length; i++){
+    var prodImg = productImages[i];
+    prodImg.addEventListener('click', recordVote);
+  }
+}
+
+function removeEventListners(){
+  for(var i = 0; i < productImages.length; i++){
+    var prodImg = productImages[i];
+    prodImg.removeEventListener('click', recordVote);
+  }
+}
 
 function Product(Name, filepath) {
   this.name = Name;
@@ -79,7 +103,6 @@ function getRandomProduct(){
   return Product.allProducts[randomIdx];
 }
 
-
 function recordVote(event){
   console.log(event);
   console.log('---In recordVote---');
@@ -114,34 +137,9 @@ function showResults(){
     liElement.innerHTML = `${Product.allProducts[i].votes} votes for ${Product.allProducts[i].name}`;
     listElement.appendChild(liElement);
   }
-  //document.getElementById('results').appendChild(listElement);
   renderVoteResults();
-
   document.getElementById('results').style.display = 'block';
 }
-
-var voteForm =  document.getElementById('vote_form');
-var productImages = document.getElementsByClassName('product-image');
-function setEventListners(){
-  for(var i = 0; i < productImages.length; i++){
-    var prodImg = productImages[i];
-    prodImg.addEventListener('click', recordVote);
-  }
-
-  // voteForm.addEventListener('submit', recordVote)
-}
-function removeEventListners(){
-  for(var i = 0; i < productImages.length; i++){
-    var prodImg = productImages[i];
-    prodImg.removeEventListener('click', recordVote);
-  }
-  // voteForm.removeEventListener('submit', recordVote);
-  // var voteButton =  document.getElementById('voteProduct');
-  // voteButton.style.display = "none";
-}
-setEventListners();
-document.getElementById('results').style.display = 'none';
-refreshRandomProducts();
 
 function renderVoteResults(){
   var prodLabels = [];
@@ -149,7 +147,7 @@ function renderVoteResults(){
   var prodColors = [];
   var prodBorderColor = [];
   for(var i=0; i<Product.allProducts.length; i++){
-    var productObj = Product.allProducts[i]
+    var productObj = Product.allProducts[i];
     if(productObj.votes > 0){
       prodLabels.push(productObj.name);
       prodVotes.push(productObj.votes);
@@ -157,15 +155,6 @@ function renderVoteResults(){
       prodBorderColor.push(`rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`);
     }
   }
-
-var prodColors2 = [
-    'rgba(255, 99, 132, 0.2)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
-    'rgba(255, 159, 64, 0.2)'
-];
 
   console.log(prodColors, prodBorderColor);
   var ctx = document.getElementById('voteResultsChart').getContext('2d');
@@ -194,5 +183,4 @@ var prodColors2 = [
     }
   });
   console.log(myChart);
-  
 }
