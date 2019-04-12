@@ -3,26 +3,73 @@ Product.allProducts = [];
 Product.productsShownLast = [];
 Product.productsAlreadySelected = [];
 var selectionCount = 0;
+var voteForm = document.getElementById('vote_form');
+var productImages = document.getElementsByClassName('product-image');
 
-new Product('Bag', 'img/bag.jpg');
-new Product('Banana', 'img/banana.jpg');
-new Product('Bathroom', 'img/bathroom.jpg');
-new Product('Boots', 'img/boots.jpg');
-new Product('Breakfast', 'img/breakfast.jpg');
-new Product('Bubblegum', 'img/bubblegum.jpg');
-new Product('Cthulhu', 'img/cthulhu.jpg');
-new Product('Dog-duck', 'img/dog-duck.jpg');
-new Product('Dragon', 'img/dragon.jpg');
-new Product('Pen', 'img/pen.jpg');
-new Product('Pet-sweep', 'img/pet-sweep.jpg');
-new Product('Scissors', 'img/scissors.jpg');
-new Product('Shark', 'img/shark.jpg');
-new Product('Sweep', 'img/sweep.png');
-new Product('Tauntaun', 'img/tauntaun.jpg');
-new Product('Unicorn', 'img/unicorn.jpg');
-new Product('USB', 'img/usb.gif');
-new Product('Water-can', 'img/water-can.jpg');
-new Product('Wine-glass', 'img/wine-glass.jpg');
+bootStarp();
+
+function bootStarp(){
+  document.getElementById('results').style.display = 'none';
+  if(localStorage.getItem('productsState') !== null){
+    console.log('Retrived stored state');
+    console.log(localStorage.getItem('productsState'));
+    var productsPreviousState = JSON.parse(localStorage.getItem('productsState'));
+    Product.allProducts = productsPreviousState.allProducts;
+    selectionCount = productsPreviousState.selectionCount;
+
+  }
+  else{
+    console.log('no stored state found');
+    new Product('Bag', 'img/bag.jpg');
+    new Product('Banana', 'img/banana.jpg');
+    new Product('Bathroom', 'img/bathroom.jpg');
+    new Product('Boots', 'img/boots.jpg');
+    new Product('Breakfast', 'img/breakfast.jpg');
+    new Product('Bubblegum', 'img/bubblegum.jpg');
+    new Product('Cthulhu', 'img/cthulhu.jpg');
+    new Product('Dog-duck', 'img/dog-duck.jpg');
+    new Product('Dragon', 'img/dragon.jpg');
+    new Product('Pen', 'img/pen.jpg');
+    new Product('Pet-sweep', 'img/pet-sweep.jpg');
+    new Product('Scissors', 'img/scissors.jpg');
+    new Product('Shark', 'img/shark.jpg');
+    new Product('Sweep', 'img/sweep.png');
+    new Product('Tauntaun', 'img/tauntaun.jpg');
+    new Product('Unicorn', 'img/unicorn.jpg');
+    new Product('USB', 'img/usb.gif');
+    new Product('Water-can', 'img/water-can.jpg');
+    new Product('Wine-glass', 'img/wine-glass.jpg');
+  }
+  setEventListners();
+  refreshRandomProducts();
+}
+
+
+
+function setStateOnLocalStorage(){
+  var votingState = {};
+  votingState.allProducts = Product.allProducts;
+  votingState.selectionCount = selectionCount;
+  localStorage.setItem('productsState', JSON.stringify(votingState));
+}
+
+function clearStateOnLocalStorage(){
+  localStorage.removeItem('productsState');
+}
+
+function setEventListners(){
+  for(var i = 0; i < productImages.length; i++){
+    var prodImg = productImages[i];
+    prodImg.addEventListener('click', recordVote);
+  }
+}
+
+function removeEventListners(){
+  for(var i = 0; i < productImages.length; i++){
+    var prodImg = productImages[i];
+    prodImg.removeEventListener('click', recordVote);
+  }
+}
 
 function Product(Name, filepath) {
   this.name = Name;
@@ -79,7 +126,6 @@ function getRandomProduct(){
   return Product.allProducts[randomIdx];
 }
 
-
 function recordVote(event){
   console.log(event);
   console.log('---In recordVote---');
@@ -104,6 +150,7 @@ function recordVote(event){
     refreshRandomProducts();
   }
   voteForm.reset();
+  setStateOnLocalStorage();
   event.preventDefault();
 }
 
@@ -114,29 +161,51 @@ function showResults(){
     liElement.innerHTML = `${Product.allProducts[i].votes} votes for ${Product.allProducts[i].name}`;
     listElement.appendChild(liElement);
   }
-  document.getElementById('results').appendChild(listElement);
+  renderVoteResults();
+  clearStateOnLocalStorage();//clearing local storage after voting 
   document.getElementById('results').style.display = 'block';
 }
 
-var voteForm =  document.getElementById('vote_form');
-var productImages = document.getElementsByClassName('product-image');
-function setEventListners(){
-  for(var i = 0; i < productImages.length; i++){
-    var prodImg = productImages[i];
-    prodImg.addEventListener('click', recordVote);
+function renderVoteResults(){
+  var prodLabels = [];
+  var prodVotes = [];
+  var prodColors = [];
+  var prodBorderColor = [];
+  for(var i=0; i<Product.allProducts.length; i++){
+    var productObj = Product.allProducts[i];
+    if(productObj.votes > 0){
+      prodLabels.push(productObj.name);
+      prodVotes.push(productObj.votes);
+      prodColors.push(`rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.4)`);
+      prodBorderColor.push(`rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`);
+    }
   }
 
-  // voteForm.addEventListener('submit', recordVote)
+  console.log(prodColors, prodBorderColor);
+  var ctx = document.getElementById('voteResultsChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: prodLabels,
+      datasets: [{
+        label: '# of Votes',
+        data: prodVotes,
+        backgroundColor: prodColors,
+        borderColor: prodBorderColor,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      aspectRatio: 2,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+  console.log(myChart);
 }
-function removeEventListners(){
-  for(var i = 0; i < productImages.length; i++){
-    var prodImg = productImages[i];
-    prodImg.removeEventListener('click', recordVote);
-  }
-  // voteForm.removeEventListener('submit', recordVote);
-  // var voteButton =  document.getElementById('voteProduct');
-  // voteButton.style.display = "none";
-}
-setEventListners();
-document.getElementById('results').style.display = 'none';
-refreshRandomProducts();
