@@ -130,9 +130,12 @@ main section div:first-child label img{
 }
 
 main section div:nth-child(2){
-  height: 60px;
+  height: 80px;
 }
-
+#voterInfoDiv {
+  font-weight: bold;
+  text-decoration-color: blueviolet;
+}
 main section div:nth-child(3) p{
   text-align: justify;
 }
