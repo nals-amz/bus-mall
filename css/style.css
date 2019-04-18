@@ -130,7 +130,7 @@ main section div:first-child label img{
 }
 
 main section div:nth-child(2){
-  height: 80px;
+  height: 100px;
 }
 #voterInfoDiv {
   font-weight: bold;
@@ -176,4 +176,8 @@ footer{
   /* border-top: solid 1px; */
   /* border-bottom: solid 1px; */
   text-align: left;
+}
+
+#voterinfoContinueMessage{
+  color: red;
 }

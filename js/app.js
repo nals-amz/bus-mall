@@ -18,7 +18,7 @@ function bootStarp(){
     Product.allProducts = productsPreviousState.allProducts;
     selectionCount = productsPreviousState.selectionCount;
     var h3Element = document.createElement('h3');
-    h3Element.innerHTML = `You have already voted for ${selectionCount} products. please continue.`;
+    h3Element.innerHTML = `Yayy! we found your last unfinished session. You have already voted for ${selectionCount} products. please continue to vote`;
     h3Element.id = 'voterinfoContinueMessage';
     var voterInfoDivElement = document.getElementById('voterInfoDiv');
     voterInfoDivElement.appendChild(h3Element);
@@ -174,6 +174,9 @@ function showResults(){
   renderVoteResults();
   clearStateOnLocalStorage();//clearing local storage after voting 
   document.getElementById('results').style.display = 'block';
+  var voterInfoMessageDiv= document.getElementById('voterInfoDiv');
+  voterInfoMessageDiv.innerHTML = '<h2> Thank You. Please check the results below. Refresh the page to start voting again</h2>';
+
 }
 
 function renderVoteResults(){
